@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Application Form</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    /* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  /* Loan Application Container */
+  .loan-container {
+    background-color: #181717;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 500px;
+  }
+  
+  h2, h3 {
+    text-align: center;
+    color: #f3f0f0;
+    margin-bottom: 15px;
+  }
+  
+  input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #f8f7f7;
+    border-radius: 5px;
+  }
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #218838;
+  }
+  
+  .error-message {
+    color: red;
+    margin-bottom: 10px;
+    display: none;
+    text-align: center;
+  }
+  
+</style>
+<body>
+  <div class="loan-container">
+    <h2>Loan Application Form</h2>
+    <form id="loanForm">
+      <h3>Applicant Details</h3>
+      <label for="name" style="color: #f0f0f0;">Full Name
+      <input type="text" id="fullName" placeholder="Full Name" required></label>
+      <label for="email" style="color: #f0f0f0;">Email
+      <input type="email" id="email" placeholder="Email" required></label>
+      <label for="dob" style="color: #f0f0f0;">Phone Number
+      <input type="text" id="phoneNumber" placeholder="Phone Number" required></label>
+      <label for="dob" style="color: #f0f0f0;">Date of Birth:</label>
+      <input type="date" id="dob" required>
+
+      <h3>Loan Details</h3>
+      <label for="dob" style="color: #f0f0f0;">Loan Amount
+      <input type="number" id="loanAmount" placeholder="Loan Amount (in Rupees)" required></label>
+      <select id="loanType" required>
+        <option value="">Select Loan Type</option>
+        <option value="personal">Personal Loan</option>
+        <option value="home">Home Loan</option>
+        <option value="car">Car Loan</option>
+        <option value="education">Education Loan</option>
+      </select>
+
+      <h3>Income Details</h3>
+      <label for="dob" style="color: #f0f0f0;">Annual Income
+      <input type="number" id="annualIncome" placeholder="Annual Income (in Rupees)" required></label>
+      <textarea id="address" placeholder="Residential Address" rows="3" required></textarea>
+
+      <div class="error-message" id="errorMessage"></div>
+      <button type="submit">Submit Application</button>&nbsp;
+      <button type="submit"><a href="calculator.html" > Loan EMI Calculator</a></button>
+      
+    </form>
+  </div>
+
+  <script src="script.js">
+    // Get form elements
+const loanForm = document.getElementById('loanForm');
+const errorMessage = document.getElementById('errorMessage');
+
+// Handle form submission
+loanForm.addEventListener('submit', (event) => {
+  event.preventDefault(); // Prevent page reload
+
+  const loanAmount = document.getElementById('loanAmount').value;
+  const annualIncome = document.getElementById('annualIncome').value;
+
+  // Validate loan amount and income
+  if (Number(loanAmount) > Number(annualIncome) * 5) {
+    showError('Loan amount cannot exceed 5 times the annual income.');
+    return;
+  }
+
+  // Simulate successful submission
+  alert('Application submitted successfully!');
+  loanForm.reset();
+  errorMessage.style.display = 'none';
+});
+
+// Function to display error messages
+function showError(message) {
+  errorMessage.textContent = message;
+  errorMessage.style.display = 'block';
+}
+
+  </script>
+</body>
+</html>

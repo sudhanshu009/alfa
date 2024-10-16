@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Balance Check</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    /* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  /* Balance Container */
+  .balance-container {
+    background-color: #141414;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    text-align: center;
+  }
+  
+  h2, h3 {
+    margin-bottom: 15px;
+    color: whitesmoke;
+  }
+  label{
+    color: whitesmoke;
+  }
+  
+  input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #218838;
+  }
+  
+  table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px;
+    color: white;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  .balance-info {
+    margin: 20px 0;
+  }
+  
+</style>
+<body>
+  <div class="balance-container">
+    <h2>Account Balance Check</h2>
+
+    <form id="balanceForm">
+      <h3>Add Transaction</h3>
+      <label for="depositAmount">Deposit Amount:</label>
+      <input type="number" id="depositAmount" placeholder="Enter Deposit Amount" min="0">
+
+      <label for="depositDate">Deposit Date:</label>
+      <input type="date" id="depositDate">
+
+      <label for="creditAmount">Credit Amount:</label>
+      <input type="number" id="creditAmount" placeholder="Enter Credit Amount" min="0">
+
+      <label for="creditDate">Credit Date:</label>
+      <input type="date" id="creditDate">
+
+      <button type="submit">Add Transaction</button>
+    </form>
+
+    <div class="balance-info">
+      <h3>Total Available Balance: <span id="totalBalance">97000</span> Rs.</h3>
+    </div>
+
+    <table id="transactionTable">
+      <thead>
+        <tr>
+          <th>Transection ID</th>
+          <th>Date</th>
+          <th>Transaction Type</th>
+          <th>Amount</th>
+          <th>Total Balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Transactions will be added dynamically here -->
+        <tr>
+            <th>556481231842</th>
+            <th>12/01/2024</th>
+            <th>Account</th>
+            <th>12000</th>
+            <th>55000</th>
+          </tr>
+          <tr>
+            <th>535653423182</th>
+            <th>13/03/2024</th>
+            <th>Account</th>
+            <th>13000</th>
+            <th>67000</th>
+          </tr>
+          <tr>
+            <th>354675212468</th>
+            <th>18/05/2024</th>
+            <th>Account</th>
+            <th>20000</th>
+            <th>87000</th>
+          </tr>
+          <tr>
+            <th>348794212154</th>
+            <th>22/05/2024</th>
+            <th>Account</th>
+            <th>10000</th>
+            <th>97000</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="script.js"> 
+    // Get form and DOM elements
+const balanceForm = document.getElementById('balanceForm');
+const depositAmountInput = document.getElementById('depositAmount');
+const depositDateInput = document.getElementById('depositDate');
+const creditAmountInput = document.getElementById('creditAmount');
+const creditDateInput = document.getElementById('creditDate');
+const totalBalanceSpan = document.getElementById('totalBalance');
+const transactionTable = document.getElementById('transactionTable').querySelector('tbody');
+
+// Initialize total balance
+let totalBalance = 0;
+
+// Handle form submission
+balanceForm.addEventListener('submit', (event) => {
+  event.preventDefault(); // Prevent form submission
+
+  const depositAmount = parseFloat(depositAmountInput.value) || 0;
+  const depositDate = depositDateInput.value;
+  const creditAmount = parseFloat(creditAmountInput.value) || 0;
+  const creditDate = creditDateInput.value;
+
+  // Process Deposit Transaction
+  if (depositAmount > 0 && depositDate) {
+    totalBalance += depositAmount;
+    addTransaction('Deposit', depositAmount, depositDate, totalBalance);
+  }
+
+  // Process Credit Transaction
+  if (creditAmount > 0 && creditDate) {
+    totalBalance -= creditAmount;
+    addTransaction('Credit', creditAmount, creditDate, totalBalance);
+  }
+
+  // Update the total balance display
+  totalBalanceSpan.textContent = totalBalance.toFixed(2);
+
+  // Clear the form fields
+  balanceForm.reset();
+});
+
+// Function to add a transaction to the table
+function addTransaction(type, amount, date, balance) {
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td>${date}</td>
+    <td>${type}</td>
+    <td>${amount.toFixed(2)}</td>
+    <td>${balance.toFixed(2)}</td>
+  `;
+  transactionTable.appendChild(row);
+}
+
+  </script>
+</body>
+</html>
